@@ -1,0 +1,9 @@
+-MM
+-MP
+-cpu=rx600
+-include="C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp","C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_glyph","C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_glyph\src","C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_glyph\src\glyph","C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_rspi_rx600","C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_rspi_rx600\src","C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\src","C:\Program Files (x86)\Renesas\RX\2_8_0\include"
+-define=__RX
+-lang=c99
+-nomessage
+-debug
+-nologo

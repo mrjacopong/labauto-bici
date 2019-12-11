@@ -1,0 +1,12 @@
+-cpu=rx600
+-fpu
+-include="C:\PROGRA~2\Renesas\RX\2_8_0\include","C:\Users\Asus\e2_studio\workspace\SB2019\src","C:\Users\Asus\e2_studio\workspace\SB2019\src\eMPL","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_rspi_rx600\src","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_rspi_rx600","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_riic_rx600\src","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_riic_rx600","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_glyph\src\glyph\fonts","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_glyph\src\glyph\drivers","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_glyph\src\glyph","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_glyph\src","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_glyph","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_bsp\mcu\rx63n","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_bsp\mcu","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_bsp\board\user","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_bsp\board\rdkrx63n","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_bsp\board","C:\Users\Asus\e2_studio\workspace\SB2019\generate\r_bsp","C:\Users\Asus\e2_studio\workspace\SB2019\generate","C:\Users\Asus\e2_studio\workspace\SB2019\generate"
+-define=__RX,EMPL_TARGET_RENESAS,MPU6050,DROTEK_IMU_10DOF_V2
+-lang=c99
+-utf8
+-nomessage
+-output=obj
+-obj_path="generate/r_bsp/board/rdkrx63n"
+-debug
+-outcode=utf8
+-nologo 

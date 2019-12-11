@@ -1,0 +1,104 @@
+Renesas Optimizing Linker (W3.00.00 )             15-Mar-2019 10:51:14
+
+*** Options ***
+
+-subcommand=LinkerI2C_Master.tmp
+-noprelink
+-input=".\r_bsp/board/rdkrx63n\lowlvl.obj"
+-input=".\r_bsp/board/rdkrx63n\dbsct.obj"
+-input=".\r_bsp/board/rdkrx63n\flash_options.obj"
+-input=".\r_bsp/board/rdkrx63n\hwsetup.obj"
+-input=".\r_bsp/board/rdkrx63n\lcd.obj"
+-input=".\r_bsp/board/rdkrx63n\lowsrc.obj"
+-input=".\r_bsp/board/rdkrx63n\resetprg.obj"
+-input=".\r_bsp/board/rdkrx63n\sbrk.obj"
+-input=".\r_bsp/board/rdkrx63n\vecttbl.obj"
+-input=".\r_glyph/src/glyph/drivers\st7579_lcd.obj"
+-input=".\r_glyph/src/glyph/fonts\font_8x8.obj"
+-input=".\r_glyph/src/glyph\glyph.obj"
+-input=".\r_glyph/src\r_glyph.obj"
+-input=".\r_glyph/src\r_glyph_register.obj"
+-input=".\r_riic_rx600/src\r_riic_rx600.obj"
+-input=".\r_riic_rx600/src\r_riic_rx600_master.obj"
+-input=".\r_rspi_rx600/src\r_rspi_rx600.obj"
+-input=".\src\ADb10.obj"
+-input=".\src\AHRS.obj"
+-input=".\src\CMT.obj"
+-input=".\src\PID.obj"
+-input=".\src/eMPL\inv_mpu.obj"
+-input=".\src\i2c.obj"
+-input=".\src\imu.obj"
+-input=".\src\mag.obj"
+-input=".\src\main.obj"
+-input=".\src\pwm.obj"
+-input=".\src\sensore.obj"
+-input=".\src\switches.obj"
+-library=".\I2C_Master.lib"
+-start=SI,SU,B_1,R_1,B_2,R_2,B,R/0,C_1,C_2,C,C$*,L*,D*,P,W*/0FFF80000,FIXEDVECT/0FFFFFF90
+-output="I2C_Master.abs"
+-form=absolute
+-nomessage
+-list=I2C_Master.map
+-nooptimize
+-nologo
+-nologo
+-nomessage
+-rom=D=R,D_1=R_1,D_2=R_2
+-vect=_undefined_interrupt_source_isr
+-stack
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+SI
+                                  00000000  000003ff       400   4
+SU
+                                  00000400  000013ff      1000   4
+B_1
+                                  00001400  0000144c        4d   1
+R_1
+                                  0000144d  000014a7        5b   1
+B_2
+                                  000014a8  000014a8         0   1
+R_2
+                                  000014a8  000014b5         e   2
+B
+                                  000014b8  0000399b      24e4   4
+R
+                                  0000399c  00004093       6f8   4
+$ADDR_C_FF7FFFE8
+                                  ff7fffe8  ff7fffff        18   1
+C_1
+                                  fff80000  fff80aef       af0   1
+C_2
+                                  fff80af0  fff80cfd       20e   2
+C
+                                  fff80d00  fff80eb7       1b8   4
+C$DSEC
+                                  fff80eb8  fff80edb        24   4
+C$BSEC
+                                  fff80edc  fff80ef3        18   4
+C$VECT
+                                  fff80ef4  fff812f3       400   4
+L
+                                  fff812f4  fff8146c       179   4
+D
+                                  fff81470  fff81b67       6f8   4
+D_1
+                                  fff81b68  fff81bc2        5b   1
+D_2
+                                  fff81bc4  fff81bd1         e   2
+P
+                                  fff81bd2  fff88bfe      702d   1
+W
+                                  fff88c00  fff88c00         0   4
+W_1
+                                  fff88c00  fff88c19        1a   1
+W_2
+                                  fff88c1a  fff88c1a         0   2
+$ADDR_C_FFFFFF80
+                                  ffffff80  ffffff8f        10   1
+FIXEDVECT
+                                  ffffff90  ffffffff        70   4

@@ -1,0 +1,16 @@
+-cpu=rx600
+-lang=c99
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_bsp"
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_glyph"
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_glyph\src"
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_glyph\src\glyph"
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_riic_rx600"
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_riic_rx600\src"
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_rspi_rx600"
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_rspi_rx600\src"
+-include="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\src"
+-output=obj="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\Debug\lcd.obj"
+-debug
+-speed
+"W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\r_bsp\board\rdkrx63n\lcd.c"
+-nologo

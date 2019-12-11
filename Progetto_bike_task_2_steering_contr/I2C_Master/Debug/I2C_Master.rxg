@@ -1,0 +1,4 @@
+-cpu=rx600
+-output="W:\RDK_Updates\RX63N\Originals\Workspace\I2C_Master\I2C_Master\Debug\I2C_Master.lib"
+-lang=c99
+-head=runtime,stdio,stdlib,string,new

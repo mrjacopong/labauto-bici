@@ -1,0 +1,5 @@
+-form=stype
+-output="MTU_PWM.mot"
+-byte_count=10
+-nomessage
+-nomessage

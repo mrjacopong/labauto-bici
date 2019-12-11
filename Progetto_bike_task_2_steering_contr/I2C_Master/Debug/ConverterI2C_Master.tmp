@@ -1,0 +1,6 @@
+-form=stype
+-output="I2C_Master.mot"
+-byte_count=10
+-nologo
+-nomessage
+-nomessage

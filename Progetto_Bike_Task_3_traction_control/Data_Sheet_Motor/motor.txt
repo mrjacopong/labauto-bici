@@ -1,0 +1,18 @@
+Rapporto di trasmissione: 51: 1
+
+Tensione nominale: 12V
+
+Nessun carico RPM: 146
+
+Corrente di carico assente: 0,23 A
+
+
+RPM stimato: 109,5
+
+Coppia nominale: 139 oz-in
+
+Corrente di stallo: 3,6 A
+
+Coppia di stallo: 556 oz-in
+
+Tipo di albero: a forma di D

@@ -1,0 +1,2 @@
+MTU_PWM
+The application demonstrates using the MTU to produce pulse-width modulated output. Varies LED brightness.

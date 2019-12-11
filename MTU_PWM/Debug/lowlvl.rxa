@@ -1,0 +1,5 @@
+"W:\RDK_Updates\RX63N\Originals\Workspace\MTU_PWM\MTU_PWM\r_bsp\board\rdkrx63n\lowlvl.src"
+-cpu=rx600
+-debug
+-output="W:\RDK_Updates\RX63N\Originals\Workspace\MTU_PWM\MTU_PWM\Debug\lowlvl.obj"
+-nologo

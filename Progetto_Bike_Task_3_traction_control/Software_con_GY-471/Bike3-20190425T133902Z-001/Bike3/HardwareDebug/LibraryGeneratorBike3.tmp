@@ -1,0 +1,6 @@
+-cpu=rx600
+-fpu
+-lang=c
+-head=runtime,math,stdio,stdlib,string,new
+-output="Bike3.lib"
+-nologo

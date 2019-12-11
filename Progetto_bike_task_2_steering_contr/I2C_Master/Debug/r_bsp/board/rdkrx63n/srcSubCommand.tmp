@@ -1,0 +1,5 @@
+-cpu=rx600
+-fpu
+-debug
+-nologo
+-nologo 

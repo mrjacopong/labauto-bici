@@ -1,0 +1,93 @@
+Renesas Optimizing Linker (W2.08.00 )             06-Dec-2019 13:23:25
+
+*** Options ***
+
+-subcommand=LinkerMTU_PWM.tmp
+-noprelink
+-input=".\r_bsp/board/rdkrx63n\lowlvl.obj"
+-input=".\r_bsp/board/rdkrx63n\dbsct.obj"
+-input=".\r_bsp/board/rdkrx63n\flash_options.obj"
+-input=".\r_bsp/board/rdkrx63n\hwsetup.obj"
+-input=".\r_bsp/board/rdkrx63n\lcd.obj"
+-input=".\r_bsp/board/rdkrx63n\lowsrc.obj"
+-input=".\r_bsp/board/rdkrx63n\resetprg.obj"
+-input=".\r_bsp/board/rdkrx63n\sbrk.obj"
+-input=".\r_bsp/board/rdkrx63n\vecttbl.obj"
+-input=".\r_glyph/src/glyph/drivers\st7579_lcd.obj"
+-input=".\r_glyph/src/glyph/fonts\font_8x8.obj"
+-input=".\r_glyph/src/glyph\glyph.obj"
+-input=".\r_glyph/src\r_glyph.obj"
+-input=".\r_glyph/src\r_glyph_register.obj"
+-input=".\r_rspi_rx600/src\r_rspi_rx600.obj"
+-input=".\src\CMT.obj"
+-input=".\src\S12ADC.obj"
+-input=".\src\encoder_MOT1.obj"
+-input=".\src\mtu_pwm_demo_main.obj"
+-input=".\src\mtu_pwm_mode1_demo.obj"
+-library=".\MTU_PWM.lib"
+-start=SI,SU,B_1,R_1,B_2,R_2,B,R/0,C_1,C_2,C,C$*,L*,D*,P,W*/0FFF80000,FIXEDVECT/0FFFFFF90
+-output="MTU_PWM.abs"
+-form=absolute
+-nomessage
+-list=MTU_PWM.map
+-nooptimize
+-nologo
+-nomessage
+-rom=D=R,D_1=R_1,D_2=R_2
+-vect=_undefined_interrupt_source_isr
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+SI
+                                  00000000  000003ff       400   4
+SU
+                                  00000400  000013ff      1000   4
+B_1
+                                  00001400  00001427        28   1
+R_1
+                                  00001428  00001480        59   1
+B_2
+                                  00001482  0000148b         a   2
+R_2
+                                  0000148c  0000148c         0   1
+B
+                                  0000148c  00001903       478   4
+R
+                                  00001904  00002123       820   4
+$ADDR_C_FF7FFFE8
+                                  ff7fffe8  ff7fffff        18   1
+C_1
+                                  fff80000  fff80ad1       ad2   1
+C_2
+                                  fff80ad2  fff80cd9       208   2
+C
+                                  fff80cdc  fff80d83        a8   4
+C$DSEC
+                                  fff80d84  fff80da7        24   4
+C$BSEC
+                                  fff80da8  fff80dbf        18   4
+C$VECT
+                                  fff80dc0  fff811bf       400   4
+L
+                                  fff811c0  fff812f8       139   4
+D
+                                  fff812fc  fff81b1b       820   4
+D_1
+                                  fff81b1c  fff81b74        59   1
+D_2
+                                  fff81b75  fff81b75         0   1
+P
+                                  fff81b75  fff85314      37a0   1
+W
+                                  fff85318  fff85318         0   4
+W_1
+                                  fff85318  fff85329        12   1
+W_2
+                                  fff8532a  fff8532a         0   2
+$ADDR_C_FFFFFF80
+                                  ffffff80  ffffff8f        10   1
+FIXEDVECT
+                                  ffffff90  ffffffff        70   4

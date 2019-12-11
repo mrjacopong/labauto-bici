@@ -1,0 +1,4 @@
+-cpu=rx600
+-lang=c99
+-head=runtime,stdio,stdlib
+-output="MTU_PWM.lib"

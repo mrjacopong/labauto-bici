@@ -1,0 +1,11 @@
+-cpu=rx600
+-fpu
+-include="D:\Google Drive\Cartelle PC\Desktop\I2C_Master\r_bsp","D:\Google Drive\Cartelle PC\Desktop\I2C_Master\r_glyph","D:\Google Drive\Cartelle PC\Desktop\I2C_Master\r_glyph\src","D:\Google Drive\Cartelle PC\Desktop\I2C_Master\r_glyph\src\glyph","D:\Google Drive\Cartelle PC\Desktop\I2C_Master\r_riic_rx600","D:\Google Drive\Cartelle PC\Desktop\I2C_Master\r_riic_rx600\src","D:\Google Drive\Cartelle PC\Desktop\I2C_Master\r_rspi_rx600","D:\Google Drive\Cartelle PC\Desktop\I2C_Master\r_rspi_rx600\src","D:\Google Drive\Cartelle PC\Desktop\I2C_Master\src","D:\Renesas\RX\3_0_0\include"
+-define=__RX,EMPL_TARGET_RENESAS,MPU6050,DROTEK_IMU_10DOF_V2
+-lang=c99
+-nomessage
+-output=obj
+-obj_path="r_rspi_rx600/src"
+-debug
+-nologo
+-nologo 
