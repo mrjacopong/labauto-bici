@@ -13,33 +13,32 @@ Includes   <System Includes> , "Project Includes"
 #include "cmt.h"
 #include "s12adc.h"
 
-/******************************************************************************
-Variable Definitions
-*******************************************************************************/
- unsigned int Tt_ms = 100;   /* desidered Tick Time expressed in ms */
-//unsigned int Ft_Hz;         /* Tick Frequency expressed in Hz related to Tt_ms*/
- unsigned int PCLK_freq=48000000; /* RDK63N Peripheral Clock frequency in Hz (48MHz)*/
- unsigned int CMT_prescaler=128; /* Prescaler value of Compare Match Timer (CMT) peripheral */
+///******************************************************************************
+//Variable Definitions
+//*******************************************************************************/
+unsigned int Tt_ms = 100;   /* desidered Tick Time expressed in ms */
+unsigned int Ft_Hz;         /* Tick Frequency expressed in Hz related to Tt_ms*/
+unsigned int PCLK_freq = 48000000; /* RDK63N Peripheral Clock frequenc in Hz (48MHz)*/
+unsigned int CMT_prescaler = 128; /* Prescaler value of Compare Match Timer (CMT) peripheral */
                                 /* Select from among four internal clock signals */
 							    /* (PCLK/8, PCLK/32, PCLK/128, PCLK/512) */
                                 /* CMT peripheral has 2 units CMT (CMT0 and CMT1) */
 								/* each one having 2 channel with a 16bits counter (total 4 channels) */
- unsigned int CMCNT_count; /* istantaneous value of CMCNT (CMT Time Counter), */
+unsigned int CMCNT_count; /* istantaneous value of CMCNT (CMT Time Counter), */
                              /* CMCNT is the up-counter used to generate IR requests */
-//unsigned int CMCOR_value; /* constant value of CMCOR, (CMT Constant Register), */
+unsigned int CMCOR_value; /* constant value of CMCOR, (CMT Constant Register), */
+unsigned int TICK_INTERVAL;
 
 
-/******************************************************************************
-Macro Definitions
-*******************************************************************************/
- /* Tick Interval Generation */
- /* Compute number of CMT ticks in the selected Tick Time of Tt_ms=100ms*/
- unsigned int Ft_Hz = 10;  /* Tick Frequency expressed in Hz related to Tt_ms */
- /* Number of CMT ticks in Tt_ms (assuming 48 MHz PCLK and clock select = PCLK / 128) */
- unsigned int CMCOR_value = 375000; /* default 48000000/128 */
- unsigned int TICK_INTERVAL;
- /* default (48000000/128)/10=37500= number of CMT ticks in the Tt_ms time*/
-
+///******************************************************************************
+//Macro Definitions
+//*******************************************************************************/
+//// /* Tick Interval Generation */
+//// /* Compute number of CMT ticks in the selected Tick Time of Tt_ms=100ms*/
+//Ft_Hz = 1000/Tt_ms;  /* Tick Frequency expressed in Hz related to Tt_ms */
+//// /* Number of CMT ticks in Tt_ms (assuming 48 MHz PCLK and clock select = PCLK / 128) */
+//CMCOR_value = (int) PCLK_freq/CMT_prescaler; /* default 48000000/128 */
+//TICK_INTERVAL=CMCOR_value/Ft_Hz; /* default (48000000/128)/10=37500= number of CMT ticks in the Tt_ms time*/
 
 
 /*******************************************************************************
@@ -50,54 +49,54 @@ Macro Definitions
 *******************************************************************************/
 void CMT_init (void)
 {
-
 #ifdef PLATFORM_BOARD_RDKRX63N
 	/* Protect off */
-
-	SYSTEM.PRCR.WORD = 0xA50B; /* Protect off */
-
-
+	SYSTEM.PRCR.WORD = 0xA50B;
 #endif
 
     /* Power up CMT0 */
-
-	MSTP(CMT0) = 0; /* Power up the CMT0 timer of the CMT */
+	MSTP(CMT0) = 0;
      
 #ifdef PLATFORM_BOARD_RDKRX63N
 	/* Protect on  */
-	SYSTEM.PRCR.WORD = 0xA500; /* Protect on */
+	SYSTEM.PRCR.WORD = 0xA500;
 
 #endif  
 
-    /* Stop the clock */
+/*******************************************************************
+	Macro Definitions
+	*******************************************************************************/
+	// /* Tick Interval Generation */
+	// /* Compute number of CMT ticks in the selected Tick Time of Tt_ms=100ms*/
+	Ft_Hz = 1000/Tt_ms;  /* Tick Frequency expressed in Hz related to Tt_ms */
+	// /* Number of CMT ticks in Tt_ms (assuming 48 MHz PCLK and clock select = PCLK / 128) */
+	CMCOR_value = (int) PCLK_freq/CMT_prescaler; /* default 48000000/128 */
+	TICK_INTERVAL = CMCOR_value/Ft_Hz; /* default (48000000/128)/10=37500= number of CMT ticks in the Tt_ms time*/
 
+    /* Stop the clock */
 	CMT.CMSTR0.BIT.STR0 = 0;
 
+	/* clear the counter register CMCNT   */
+	CMT0.CMCNT = 0;
+
     /* Trigger 100 ms from now */
-
-	CMT0.CMCNT=0;
-
-	TICK_INTERVAL=37500;
-
 	CMT0.CMCOR = TICK_INTERVAL;
     
     /* CMCR - Compare Match Timer Control Register
     b6      CMIE: 1 = Compare match interrupt (CMIn) enabled
     b1:b0   CKS:  2 = Clock selects is PCLK/128 (375 kHz @ PCLK = 48 MHz) 
     */
-
-	CMT0.CMCR.WORD = 0x0042;
+	//CMT0.CMCR.WORD = 0x0042;
+	CMT0.CMCR.BIT.CKS = 2; // 0 = 8, 1 = 32, 2 = 128, 3 = 512 prescaler
+	CMT0.CMCR.BIT.CMIE = 1; // interrupt attiva
     
     /* Set interrupt priority in ICU */
-
 	IPR(CMT0, CMI0) = 0x01;
     
     /* Enable the interrupt in the ICU */
-
 	IEN(CMT0, CMI0) = 1;
     
     /* Start the clock running */ 
-
 	CMT.CMSTR0.BIT.STR0 = 1;
 } /* End of function CMT_init() */
 
@@ -128,7 +127,7 @@ void CMT_isr (void)
     float adc_volts;
     
     /* String to display */
-    char result_string[20];
+    char result_string[13];
     
     /* Toggle an LED with each interrupt */
     LED4 = ~LED4;
@@ -137,17 +136,19 @@ void CMT_isr (void)
     adc_result = S12ADC_read();
     
     /* Convert to a string */
-    sprintf(result_string, "Reading=%4d", adc_result);
+    //sprintf(result_string, "Reading=%4d", adc_result);
        
     /* Update the display */
-    lcd_display(LCD_LINE6, (const uint8_t *)result_string);
+    //lcd_display(LCD_LINE6, (const uint8_t *)result_string);
 
     /* Convert S12ADC counts to volts and display */    
     adc_volts = ((float) adc_result) / MAX_COUNTS * (VREFH - VREFL);
     
     /* Convert to a string */
-    sprintf(result_string, "Volts  =%4.2f", adc_volts);
-       
-    /* Update the display */
-    lcd_display(LCD_LINE8, (const uint8_t *)result_string);
+//    sprintf(result_string, "Volts  =%4.2f", adc_volts);
+//
+//    /* Update the display */
+//    lcd_display(LCD_LINE8, (const uint8_t *)result_string);
+
+    Volt_2_PWMduty(adc_volts);
 } /* End of CMT_isr() */

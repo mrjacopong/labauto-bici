@@ -7,27 +7,27 @@ r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: ../r_glyph/src/Glyph\Config.h
 ../r_glyph/src/Glyph\Config.h:
 r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: ../r_glyph/src/Glyph\Preamble.h
 ../r_glyph/src/Glyph\Preamble.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\platform.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\platform.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\./board/rdkrx63n/r_bsp.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\./board/rdkrx63n/r_bsp.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\mcu\rx63n\iodefine.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\mcu\rx63n\iodefine.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\yrdkrx63n.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\yrdkrx63n.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\mcu_info.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\mcu_info.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\hwsetup.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\hwsetup.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\lcd.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\lcd.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\sbrk.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_bsp\.\board\rdkrx63n\sbrk.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_rspi_rx600\src\r_rspi_rx600.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_rspi_rx600\src\r_rspi_rx600.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_rspi_rx600\r_rspi_rx600_config.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_rspi_rx600\r_rspi_rx600_config.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\platform.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\platform.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\./board/rdkrx63n/r_bsp.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\./board/rdkrx63n/r_bsp.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\mcu\rx63n\iodefine.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\mcu\rx63n\iodefine.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\yrdkrx63n.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\yrdkrx63n.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\mcu_info.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\mcu_info.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\hwsetup.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\hwsetup.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\lcd.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\lcd.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\sbrk.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_bsp\.\board\rdkrx63n\sbrk.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_rspi_rx600\src\r_rspi_rx600.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_rspi_rx600\src\r_rspi_rx600.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_rspi_rx600\r_rspi_rx600_config.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_rspi_rx600\r_rspi_rx600_config.h:
 r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: ../r_glyph/src/r_glyph.h
 ../r_glyph/src/r_glyph.h:
-r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_glyph\r_glyph_config.h
-C:\Users\panex\Desktop\ebike\codice jacobo\MTU_PWM\r_glyph\r_glyph_config.h:
+r_glyph/src/r_glyph.obj r_glyph/src/r_glyph.d: C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_glyph\r_glyph_config.h
+C:\Users\mrjac\e2_studio\workspace\MTU_PWM\r_glyph\r_glyph_config.h:

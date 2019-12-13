@@ -52,17 +52,17 @@ Private global variables
 /* practically it is the value to assign to register TGRA which define */
 /* the value to compare with TCNT for defining the base period (frequency) of the PWM */
 
-const unsigned short g_pwm_base_count = (PCLK_FRQ / BASE_PWM_FRQ); /* YRDKRX63N Peripheral Clock frequency in Hz (48MHz)*/
+const unsigned short g_pwm_base_count = (PCLK_FRQ / BASE_PWM_FRQ);
 
 /* A max count value for the PWM width that must not be exceeded. */
 /* practically it is the maximum value that TGRB can assume */
 
-const unsigned short g_max_duty_count = (((PCLK_FRQ / BASE_PWM_FRQ) / 100) * MAX_DUTY); /* example 2400*99/100=2376 counts */
+const unsigned short g_max_duty_count = (((PCLK_FRQ / BASE_PWM_FRQ) / 100) * MAX_DUTY);
 
 /* A min count value for the PWM width that must not be exceeded. */
 /* practically it is the minimum value that TGRB can assume */
 
-const unsigned short g_min_duty_count = (((PCLK_FRQ / BASE_PWM_FRQ) / 100) * MIN_DUTY); /* example 2400*1/100=24 counts */
+const unsigned short g_min_duty_count = (((PCLK_FRQ / BASE_PWM_FRQ) / 100) * MIN_DUTY);
 
 
 /******************************************************************************
@@ -86,17 +86,21 @@ void mtu_initialize (void)
     /* Disable protection of the Register Write Protection PRCR */
 /* Protect set off (ref. Hardware Manual Chapt.13.1.1)*/
 
-	#ifdef PLATFORM_BOARD_RDKRX63N
-	SYSTEM.PRCR.WORD = 0xA50B; /* Protect off */
-	#endif
+	SYSTEM.PRCR.WORD = 0xA50B;
+                               /* write A5 (in hexadecimal) to the eight higher-order */
+                               /* bits and 0B (in hexadecimal) to the eight lower-order */
+							   /* where B in hexadecimal is equivalent to 1011 in Binary */
+							   /* therefor it sets PRC3, PRC1 and PRC0 to 1 */  
+
     /* Disable Module Stop Function (MSTP) of timer MTU4 */
+
+
 	MSTP(MTU4) = 0;
 
     /* Enable protection of the  Register Write Protection PRCR */
 
-	#ifdef PLATFORM_BOARD_RDKRX63N
-	SYSTEM.PRCR.WORD = 0xA50B;
-	#endif
+	SYSTEM.PRCR.WORD = 0xA500;
+
 /* Protect set on  (ref. Hardware Manual Chapt.13.1.1)*/
                                /* write A5 (in hexadecimal) to the eight higher-order */
                                /* bits and 0B (in hexadecimal) to the eight lower-order */
@@ -110,39 +114,52 @@ void mtu_initialize (void)
 
 	MTU.TSTR.BIT.CST4 = 0;
 
-							/* Stop count of MTU4 Timer Counter (MTU4.TCNT) */
+/* Stop count of MTU4 Timer Counter (MTU4.TCNT) */
                          /* by stopping TSTR register of MTU4 */
                        /* (ref. Hardware Manual Chapt.23.2.14) */
 
    /* Enable read/write access to the MTU4 channel and enable PIN TIOC4A/B of the CPU  */
 
-	MTU.TRWER.BIT.RWE = 1; /* Enable read/write access to the write-protected MTU3 and MTU4 registers. */
-                           /* by enabling "Timer Read/Write 
-
+/* Enable read/write access to the write-protected MTU3 and MTU4 registers. */
+                           /* by enabling "Timer Read/Write */
+	MTU.TRWER.BIT.RWE = 1;
 /*	"Enable Registers" (TRWER) */
 	                       /* (ref. Hardware Manual Chapt.23.2.16) */	
-	MTU.TOER.BIT.OE4A = 1; /* Enable MTIOC4A output. In MTU3 and MTU4, set TOER prior to setting TIOR. */
-                           /* by enabling "Timer Output Master 
+/* Enable MTIOC4A output. In MTU3 and MTU4, set TOER prior to setting TIOR. */
+                           /* by enabling "Timer Output Master */
 
+	MTU.TOER.BIT.OE4A = 1;
 
 
     /* setting of P24 as NO I/O port but as MTIOC4A for PWM signals */
 
-	MPC.P24PFS.BYTE = 0x01; /* 1 defines P24 to be MTIOC4A, with no IRQ. */
-	//MPC.PE2PFS.BYTE = 0x01; /* 1 defines PD5 led6 to be MTIOC4A, with no IRQ. */
-                        /* (ref. Hardware Manual Chapt.22.2.4) */
+/* 1 defines P24 to be MTIOC4A, with no IRQ. */
+ 	                         /* (ref. Hardware Manual Chapt.22.2.4) */	
 
+	//MPC.P24PFS.BYTE = 0x01;
    /* setting the Port Direction Register (PDR) of PORT2 as Output port  */
 
-	PORT2.PDR.BIT.B4 = 1; /* Set P24 as output. */
-	//PORTE.PDR.BIT.B2 = 1;                       /* (ref. Hardware Manual Chapt.21.3.1) */
+/* Set P24 as output. */
+
+	//PORT2.PDR.BIT.B4 = 1;
+
+	MPC.PE1PFS.BYTE = 0x01;
+	PORTE.PDR.BIT.B2 = 1;
+	PORTE.PMR.BIT.B2 = 1;
+
+//	MPC.P13PFS.BYTE = 0x01;
+//	PORT1.PDR.BIT.B1 = 1;
+//	PORT1.PMR.BIT.B1 = 1;
+
+	                         /* (ref. Hardware Manual Chapt.21.3.1) */	
  
 
   /* setting the Port Mode Register (PMR) to use the Pin4 of PORT2 */ 
    /* as I/O for peripheral function and not as general I/O pin */
-	PORT2.PMR.BIT.B4 = 1;    /* Set pin4 of PORT2 as peripheral function pin (not as general I/O) */
-	//PORTE.PMR.BIT.B2 =1;        /* (ref. Hardware Manual Chapt.21.3.4) */
+/* Set pin4 of PORT2 as peripheral function pin (not as general I/O) */
+	                         /* (ref. Hardware Manual Chapt.21.3.4) */	
 
+	//PORT2.PMR.BIT.B4 = 1;
 
     /* Timer Control Register (TCR) 
     b7:b5   CCLR: Counter Clear Source 1 = TCNT cleared by TGRA compare match/input capture 
@@ -164,12 +181,12 @@ void mtu_initialize (void)
     b7:b4   IOB - 5 = Ouptut: initial 1, 0 at TGRB compare match
     b3:b0   IOA - MTIOC4A pin function:
                 6 = output: initial 1, then 1 after TGRA match */
-    MTU4.TIORH.BYTE = 0x56; /* High on TGRA, Low on TGRB. */
   
     /* Timer I/O Control Register (TIORL)
     b7:b4   IOD - 0 = output: none
     b3:b0   IOC - 0 = output: none  */
-    MTU4.TIORL.BYTE = 0x00;
+
+    MTU4.TIORH.BYTE = 0x56;
   
     /* Timer General Registers (TGRx)
     *  b15:b0 TGRx either output compare or input capture register.
@@ -179,10 +196,13 @@ void mtu_initialize (void)
 	* TGRB is being used as the PWM pulse width counter. 
 	* The output level is switched when this count is reached by TCNT. */  
 
-    MTU4.TGRA = g_pwm_base_count;   /* MTIOC4A: 1 when TCNT gets to TGRA, 0 when TCNT gets to TGRB */
+    MTU4.TIORL.BYTE = 0x00;
 
-	MTU4.TGRB = g_pwm_base_count / 2;
+/* MTIOC4A: 1 when TCNT gets to TGRA, 0 when TCNT gets to TGRB */
+
+    MTU4.TGRA = g_pwm_base_count; // VEDI CHE METTERCI
 /* Default Starting value for PWM is 50% duty. */
+    MTU4.TGRB = g_pwm_base_count / 2;
 
 } /* End of function mtu_initialize(). */
 
@@ -195,8 +215,8 @@ void mtu_initialize (void)
 ******************************************************************************/
 void mtu_start (void)
 {
-	MTU4.TCNT = 0x0000; /* Clear counter register */
-	MTU.TSTR.BIT.CST4 = 1; /* Start MTU4 */
+	MTU4.TCNT = 0x0000;
+	MTU.TSTR.BIT.CST4 = 1;
 } /* End of function mtu_start(). */
 
 
@@ -208,7 +228,7 @@ void mtu_start (void)
 ******************************************************************************/
 void mtu_stop (void)
 {
-	MTU.TSTR.BIT.CST4 = 0; /* Stop MTU4. */
+	MTU.TSTR.BIT.CST4 = 0;
 } /* End of function mtu_stop(). */
 
 
@@ -221,8 +241,8 @@ void mtu_stop (void)
 *                Used peripheral's channel  : MTU4
 *                Used peripheral's registers: MTU4.TGRA, MTU4.TGRB
 *                Used CPU Pins              : MTIOC4A
-*                Used CPU Output port       : P24   
-*                Used Output Header Pins    : JN2 Pin 25
+*                Used CPU Output port       :
+*                Used Output Header Pins    : JN2 Pin 23
 * Arguments    : desired_output
 * Return value : none
 ******************************************************************************/
@@ -242,7 +262,7 @@ void Volt_2_PWMduty (double desired_output)
       { 
 	   /* setting TGRB to its min value also when g_duty_count is 0 (start condition)*/
 
-    	MTU4.TGRB = g_min_duty_count;
+    		MTU4.TGRB = g_min_duty_count;
       }
       
 	  /* setting a security work conditions for the input data of the function, */
@@ -252,20 +272,21 @@ void Volt_2_PWMduty (double desired_output)
 			    				     	  * for the output channel) */
           { 
 		   /* setting TGRB to its min value */
-    	  	  MTU4.TGRB = g_max_duty_count; //MTU4.TGRA + 2;
+
+    	  	  MTU4.TGRB = g_min_duty_count;
 	       }
 		  else if (desired_output >= V_Max) /* if desired_output approximate V_Max Volt,
                                           * (maximum admissible voltage value 
 		                                  * for the output channel) */
              { 
 	          /* setting TGRB to its max value */
-			  	  MTU4.TGRB = g_max_duty_count; //MTU4.TGRA + 2;
+			  	  MTU4.TGRB = g_max_duty_count;
 	         }
          else
             { 
 	         /* setting TGRB to the computed value g_duty_count */
 
-        	 	 MTU4.TGRB = g_duty_count;
+        	 MTU4.TGRB = g_duty_count;
 	        }
 		 
 } /* End of volt_2_PWMduty. */

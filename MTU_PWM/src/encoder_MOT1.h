@@ -3,9 +3,9 @@
 
 /* NOTA: Se non c'e' il motoriduttore, mettere REDUCTION_GAIN a 1 */
 
-#define ENCODER_PPR			13 	/* ppr dell'encoder per il ballbot */
+#define ENCODER_PPR			16 	/* ppr dell'encoder per il ballbot */
 
-#define REDUCTION_GAIN		51 /* Rapporto di riduzione inverso totale (approssimato) */
+#define REDUCTION_GAIN		131 /* Rapporto di riduzione inverso totale (approssimato) */
 
 #define PHASE_COUNT_MODE	4	/* Phase counting mode x4 normally */
 
@@ -19,7 +19,7 @@
 
 /* Set speed cycle */
 /* MTU2 CH0 TGRC compare match cycle(0.84ms)  	*/
-/* 0.84ms / 21ns(@48MHz) = 40000 				*/
+/* 0.84ms / 21ns(@48MHz) = 40.........000 				*/
 #define CH0_TGRA_CYCLE   (unsigned short)(40000-1)
 
 /* Pi greco per la conversione gradi-radianti */

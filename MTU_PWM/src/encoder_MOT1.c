@@ -299,9 +299,15 @@ void pfc_init(void)
     /* porta P24, pin 25 conn. JN2 */
 	MPC.P24PFS.BYTE  = 0x02; /* 1 defines P24 to be MTCLKA, with no IRQ */
 
-    PORT2.PDR.BIT.B4 = 0;    /* Set P24 as input */
+	PORT2.PDR.BIT.B4 = 0;    /* Set P24 as input */
 
     PORT2.PMR.BIT.B4 = 1;    /* Set P24 as peripheral function bit */
+
+	//set port a caso
+
+	//MPC.PC5PFS.BYTE = 0x02;
+	//PORTC.PDR.BIT.B5 = 0;
+	//PORTC.PMR.BIT.B5 = 1;
 
     /* porta PA6, pin 6 conn. JN2 */
     MPC.PA6PFS.BYTE  = 0x02; /* 1 defines PA6 to be MTCLKB, with no IRQ */
@@ -431,7 +437,7 @@ void Media_Speed_Enc_1(encoder_data_t_mt_1* enc)
 
 }
 
-void Read_Enc_1(encoder_data_t_mt_1* enc)
+void Read_Pos_Enc_1(encoder_data_t_mt_1* enc)
 {
 	/* stampo i valori acquisiti */
 
@@ -439,13 +445,27 @@ void Read_Enc_1(encoder_data_t_mt_1* enc)
 	uint8_t  lcd_buffer[20];
 
 	/* Display message on LCD */
-	lcd_display(LCD_LINE1, "Enc data:");
+	//lcd_display(LCD_LINE7, "Enc data:");
 
-	sprintf((char *)lcd_buffer, "r/s= %.3f" , enc->speed_in_rad_per_sec);
-	lcd_display(LCD_LINE2, lcd_buffer);
+	sprintf((char *)lcd_buffer, "pos= %.1f" , enc->position_in_degree);
+	lcd_display(LCD_LINE8, lcd_buffer);
 
 }
 
+void Read_Vel_Enc_1(encoder_data_t_mt_1* enc)
+{
+	/* stampo i valori acquisiti */
+
+	/* Declare display buffer */
+	uint8_t  lcd_buffer[20];
+
+	/* Display message on LCD */
+	lcd_display(LCD_LINE6, "Enc data:");
+
+	sprintf((char *)lcd_buffer, "vel= %.1f" , enc->speed_in_rad_per_sec);
+	lcd_display(LCD_LINE7, lcd_buffer);
+
+}
 void Init_Encoder_1_vars(void)
 {
 	/* Numero di impulsi per giro dell'albero (con motoriduttore) */

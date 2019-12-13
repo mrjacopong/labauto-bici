@@ -82,17 +82,13 @@ void S12ADC_init (void)
     b1    TRGE     0 Disables conversion to start w/ trigger
     b0    EXTRG    0 Trigger select, Scan conversion start by a timer source or software
 	*/
-	/* ADCSR: A/D Control Register set up*/
-	//S12AD.ADCSR.BYTE = 0x00;
-    S12AD.ADCSR.BYTE =0x40; /* start A/D conversion */
-	                         /* 0x40=01000000, b7=1, */
+    S12AD.ADCSR.BYTE = 0x40; /* start A/D conversion */ 
+	                         /* 0x40=010000000, b7=1, */
 
     /* ADANS0: A/D Channel Select Register 0
     b15:b0  ANS0: Selects analog inputs of the channels AN000 to AN015 that are 
     subjected to A/D conversion
     */
-
-
     S12AD.ADANS0.WORD = 0x0004; /* Read AN002, which is connected to the potentiometer */
 
     /* ADANS1: A/D Channel Select Register 1
@@ -155,14 +151,14 @@ void S12ADC_start (void)
 * Return value : uint16_t - 
 *                   the ADC conversion value
 *******************************************************************************/
-unsigned short int S12ADC_read (void)
+uint16_t S12ADC_read (void)
 {
-	unsigned short int adc_result;
+    uint16_t adc_result;
     
     adc_result = S12AD.ADDR2;        /* Read the result register for AN2 */
     
     return adc_result;
-
+        
 } /* End of function S12ADC_read() */
 
 /*******************************************************************************

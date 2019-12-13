@@ -60,14 +60,17 @@ float Desired_Volt = 0.5; /* desired output Voltage (admissible range 0 - 3.3V)
 ******************************************************************************/
 void main(void)
 {
+	CMT_init();
 	//init dell'encoder
 	// Creazione variabile di tipo struttura encoder che verrà usata per le funzioni dell'encoder.
 	encoder_data_t_mt_1* enc_1;
-	char velocita[20];
+	char velocita[12];
 	encoder_1_init();
 	Init_Encoder_1_vars();
-	mtu2_init();
 	pfc_init();
+	//inizializzazione pwm
+	//mtu2_init();
+
 
 
     /* Initialize LCD */
@@ -86,12 +89,12 @@ void main(void)
         the JTAG debugger. Open the console window in HEW to see the output. */
     printf("This is the debug console\r\n");
 
-    mtu_initialize();   /* Set up the MTU. */
+    //mtu_initialize();   /* Set up the MTU. */
     
-    mtu_start();        /* Start the PWM demo.*/
+    //mtu_start();        /* Start the PWM demo.*/
 
-    S12ADC_init();
-    S12ADC_start ();
+   // S12ADC_init();
+    //S12ADC_start ();
 
     /* Do Volt_2_PWMduty in main loop. Demo is performed generating a PWM signal
 	 * whose duty generate an output having medium level equal to Desired_Volt. */
@@ -101,12 +104,12 @@ void main(void)
 
 		Query_Enc_1(enc_1);
 		Media_Speed_Enc_1(enc_1);
-		//fine lettura
-
-		//sprintf(velocita,"%4d",enc_1->speed);
-		//lcd_display(LCD_LINE5,velocita);
-    	float adc_volts = ((float) S12ADC_read()) / MAX_COUNTS * (VREFH - VREFL);
-    	Volt_2_PWMduty(adc_volts);
+		Read_Vel_Enc_1(enc_1);
+		Read_Pos_Enc_1(enc_1);
+		for(int i=0;i<100000;i++){}
+    	//float adc_volts = ((float) S12ADC_read()) / MAX_COUNTS * (VREFH - VREFL);
+    	//printf("%d \r\n",adc_volts);
+    	//Volt_2_PWMduty(adc_volts);
     }
 } /* End of function main() */
 
