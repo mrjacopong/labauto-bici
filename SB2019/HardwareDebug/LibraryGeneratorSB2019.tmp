@@ -1,0 +1,5 @@
+-cpu=rx600
+-lang=c99
+-head=runtime,math,mathf,stdio,stdlib,string,new
+-output="SB2019.lib"
+-nologo
