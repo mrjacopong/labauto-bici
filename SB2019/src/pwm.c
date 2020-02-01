@@ -303,10 +303,10 @@ void Init_Port_Dir(void)	// Inizializzazione delle porte di Direzione
 	PORTD.PMR.BIT.B6 = 0; //porta di io
 	PORTD.PODR.BIT.B6 = 0; //orario
 
-	// Motor 2 alias Ruote (Connector JN2 - PIN 16)
-	PORTD.PDR.BIT.B3 = 1; //OUTPUT
-	PORTD.PMR.BIT.B3 = 0; //GPIO
-	PORTD.PODR.BIT.B3 = 0; //orario
+//	// Motor 2 alias Ruote (Connector JN2 - PIN 16)
+//	PORTD.PDR.BIT.B3 = 1; //OUTPUT
+//	PORTD.PMR.BIT.B3 = 0; //GPIO
+//	PORTD.PODR.BIT.B3 = 0; //orario
 }
 
 /**********************************************************************************

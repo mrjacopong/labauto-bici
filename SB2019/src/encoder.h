@@ -78,12 +78,16 @@ void tpu_init_(void);/*tpu3 tpu4*/
 void Init_Encoder_vars(parametri_inr_config*, identifica_enc*,unsigned int);
 void Query_Enc(encoder_data*, parametri_inr_config*,identifica_enc*);
 void Media_Speed(encoder_data*, parametri_inr_config*);
+
 void Read_Pos_1LCD(encoder_data* enc);
 void Read_Vel_1LCD(encoder_data* enc);
 void Read_Pos_2LCD(encoder_data* enc);
 void Read_Vel_2LCD(encoder_data* enc);
 
 
-
+//parametri_inr_config par_encoder_1;
+//identifica_enc enc_id_1;
+//parametri_inr_config par_encoder_2;
+//identifica_enc enc_id_2;
 
 #endif

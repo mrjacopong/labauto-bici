@@ -24,6 +24,9 @@
  *  (pin_enc1_init,pin_enc2_init,pin_enc3_init, le parti centrali della
  *  inizializzazione riguardano la gestione degli interrupt */
 
+extern parametri_inr_config par_encoder_1;
+extern parametri_inr_config par_encoder_2;
+
 void encoder_init_1(void)
 {
 	unsigned int dummy;
@@ -934,6 +937,309 @@ void Read_Pos_2LCD(encoder_data* enc)
 	sprintf((char *)lcd_buffer, "pos= %.3f" , enc->position_in_degree);
 	lcd_display(LCD_LINE6, lcd_buffer);
 
+}
+
+/* interruptsss */
+
+
+/* Implementazione degli interrupt per la gestione della lettura dell'encoder 1 */
+#pragma interrupt MTU1_TGIA1_isr(vect = VECT_MTU1_TGIA1, enable)
+static void MTU1_TGIA1_isr(void)
+{
+    volatile unsigned char dummy;
+
+    if(ICU.IR[VECT_MTU1_TGIA1].BIT.IR)
+    {
+    	ICU.IR[VECT_MTU1_TGIA1].BIT.IR = 0;
+    	dummy = ICU.IR[VECT_MTU1_TGIA1].BIT.IR;
+    }
+
+    par_encoder_1.TGRA1_data = MTU1.TGRA;    /* Read TGRA capture register */
+
+    par_encoder_1.Contatore_di_overflow = par_encoder_1.Under_over_flow_cnt;
+    par_encoder_1.posizione_acquisita = 1;
+
+    /* Disable interrupt TGIA1 */
+	/* ---- Timer interrupt enable register_1 (TIER_1) ---- */
+	MTU1.TIER.BYTE &= 0xFE;
+	/* 7  : TTGE=b'0 : A/D Converter Start Request Disabled */
+	/* 6  :     =b'0 : reserve        */
+	/* 5  :TCIEU=b'1 : Underflow Interrupt Enable   */
+	/* 4  :TCIEV=b'1 : Overflow Interrupt Enable    */
+	/* 3-2:     =b'00: reserve        */
+	/* 1  :TGIEB=b'1 : TGRB Interrupt Enable        */
+	/* 0  :TGIEA=b'0 : TGRA Interrupt Disable       */
+}
+
+//INTERRUPT USATO PER IL CALCOLO DELLA VELOCITA' (TGRB MTU1)
+#pragma interrupt MTU1_TGIB1_isr(vect = VECT_MTU1_TGIB1, enable)
+static void MTU1_TGIB1_isr(void)
+{
+	volatile unsigned char dummy;
+
+	static unsigned char state = 0;
+
+    if(ICU.IR[VECT_MTU1_TGIB1].BIT.IR)
+    {
+    	ICU.IR[VECT_MTU1_TGIB1].BIT.IR = 0;
+    	dummy = ICU.IR[VECT_MTU1_TGIB1].BIT.IR;
+    }
+	switch(state)
+	{
+	 case 0:
+		 par_encoder_1.TGRB1_data_old = MTU1.TGRB;		/* Read TGRB capture register */
+		 state = 1;
+		 par_encoder_1.Read_overflow_old = (int)par_encoder_1.Under_over_flow_cnt;
+		 par_encoder_1.speed_sample = 0;
+
+		 break;
+	 case 1:
+		 par_encoder_1.speed_sample = 1;
+		 state = 0;
+		 par_encoder_1.TGRB1_data_new = MTU1.TGRB;		/* Read TGRB capture register */
+
+		 par_encoder_1.Read_overflow = (int)par_encoder_1.Under_over_flow_cnt;
+		 /* Disable interrupt TGIB1 */
+		 /* ---- Timer interrupt enable register_1 (TIER_1) ---- */
+		 MTU1.TIER.BYTE &= 0xFD;
+		/* 7  :  */
+		/* 6  :  */
+		/* 5  :TCIEU=b'1 : Underflow Interrupt Enable   */
+		/* 4  :TCIEV=b'1 : Overflow Interrupt Enable    */
+		/* 3-2:     =b'00: reserve        */
+		/* 1  :TGIEB=b'0 : TGRB Interrupt Disable        */
+		/* 0  :TGIEA=b'       */
+		 break;
+	 default:
+		state = 0;
+		par_encoder_1.speed_sample = 0;
+	}
+}
+
+//INTERRUPT USATO PER IL CONTEGGIO DEGLI OVERFLOW-UNDERFLOW DI TCNT1 CON SEGNO
+#pragma interrupt MTU1_TCIV_TCUV_isr(vect = VECT_ICU_GROUPE1, enable)
+void MTU1_TCIV_TCUV_isr(void)
+{
+    volatile unsigned char dummy;
+
+    do {
+    	if(ICU.GRP[GRP_MTU1_TCIV1].BIT.IS_MTU1_TCIV1)
+		{
+			/* ---- Clearing of TCIV Overflow Flag ---- */
+			if(!ICU.GCR[GCR_MTU1_TCIV1].BIT.CLR_MTU1_TCIV1)
+			{
+				ICU.GCR[GCR_MTU1_TCIV1].BIT.CLR_MTU1_TCIV1 = 1;
+				dummy = ICU.GCR[GCR_MTU1_TCIV1].BIT.CLR_MTU1_TCIV1;
+			}
+			par_encoder_1.Under_over_flow_cnt++;
+		}
+		if(ICU.GRP[GRP_MTU1_TCIU1].BIT.IS_MTU1_TCIU1)
+		{
+			/* ---- Clearing of TCIU Underflow Flag ---- */
+			if(!ICU.GCR[GCR_MTU1_TCIU1].BIT.CLR_MTU1_TCIU1)
+			{
+				ICU.GCR[GCR_MTU1_TCIU1].BIT.CLR_MTU1_TCIU1 = 1;
+				dummy = ICU.GCR[GCR_MTU1_TCIU1].BIT.CLR_MTU1_TCIU1;
+			}
+			par_encoder_1.Under_over_flow_cnt--;
+		}
+    }while(ICU.IR[VECT_ICU_GROUPE1].BIT.IR == 1);
+}
+
+/*
+ * QUESTA FUNZIONE DI INTERRUPT PER ORA NON LA USO:
+ * SERVE PER DARE LA VELOCITA' ISTANTANEA DELL'ALBERO;
+ * PER LA VELOCITA' PRELEVO INVECE LA CATTURA SU TGRB della MTU1
+ */
+#pragma interrupt MTU0_TGIB0_isr(vect = VECT_MTU0_TGIB0, enable)
+static void MTU0_TGIB0_isr(void)
+{
+    volatile unsigned char dummy;
+    signed long data;
+
+    /* ---- Clearing of TGIB interrupt flag ---- */
+    if(ICU.IR[VECT_MTU0_TGIB0].BIT.IR)
+    {
+    	ICU.IR[VECT_MTU0_TGIB0].BIT.IR = 0;
+    	dummy = ICU.IR[VECT_MTU0_TGIB0].BIT.IR;
+    }
+
+    data = MTU0.TGRB - MTU0.TGRD;
+        /* Read TGRB capture register */
+        /* Read TGRD buffer register  */
+
+   if ( data < 0){
+	   par_encoder_1.TGRD0_B0_data_diff = data + (CH0_TGRC_CYCLE+1);	/* set data */
+   }else{
+	   par_encoder_1.TGRD0_B0_data_diff = data;					/* set data */
+   }
+}
+
+
+/* encoder 2 */
+
+/* Implementazione degli interrupt per la gestione della lettura dell'encoder 2 */
+#pragma interrupt TPU1_TGIA1_isr(vect = VECT_TPU1_TGI1A, enable)
+static void TPU1_TGIA1_isr(void)
+{
+    volatile unsigned char dummy;
+
+    if(TPU1.TSR.BIT.TGFA)
+    {
+    	TPU1.TSR.BIT.TGFA = 0;
+    	dummy = TPU1.TSR.BIT.TGFA;
+    }
+
+    if(ICU.IR[VECT_TPU1_TGI1A].BIT.IR)
+    {
+    	ICU.IR[VECT_TPU1_TGI1A].BIT.IR = 0;
+    	dummy = ICU.IR[VECT_TPU1_TGI1A].BIT.IR;
+    }
+
+    par_encoder_2.TGRA1_data = TPU1.TGRA;    /* Read TGRA capture register */
+
+    par_encoder_2.Contatore_di_overflow = par_encoder_2.Under_over_flow_cnt;
+
+    par_encoder_2.posizione_acquisita = 1;
+
+    /* Disable interrupt TGIA1 */
+    /* ---- Timer interrupt enable register_1 (TIER_1) ---- */
+    TPU1.TIER.BYTE &= 0xFE;
+	/* 7  : TTGE=b'0 : A/D Converter Start Request Disabled */
+	/* 6  :     =b'0 : reserve        */
+	/* 5  :TCIEU=b'1 : Underflow Interrupt Enable   */
+	/* 4  :TCIEV=b'1 : Overflow Interrupt Enable    */
+	/* 3-2:     =b'00: reserve        */
+	/* 1  :TGIEB=b'1 : TGRB Interrupt Enable        */
+	/* 0  :TGIEA=b'0 : TGRA Interrupt Disable       */
+}
+
+#pragma interrupt TPU1_TGIB1_isr(vect = VECT_TPU1_TGI1B, enable)
+static void TPU1_TGIB1_isr(void)
+{
+	volatile unsigned char dummy;
+
+	static unsigned char state = 0;
+
+    if(TPU1.TSR.BIT.TGFB)
+    {
+    	TPU1.TSR.BIT.TGFB = 0;
+    	dummy = TPU1.TSR.BIT.TGFB;
+    }
+
+    if(ICU.IR[VECT_TPU1_TGI1B].BIT.IR)
+    {
+    	ICU.IR[VECT_TPU1_TGI1B].BIT.IR = 0;
+    	dummy = ICU.IR[VECT_TPU1_TGI1B].BIT.IR;
+    }
+
+	switch(state)
+	{
+	 case 0:
+		 par_encoder_2.TGRB1_data_old = TPU1.TGRB;		/* Read TGRB capture register */
+		 state = 1;
+		 par_encoder_2.Read_overflow_old = (int)par_encoder_2.Under_over_flow_cnt;
+		 par_encoder_2.speed_sample = 0;
+		 break;
+	 case 1:
+		 par_encoder_2.speed_sample = 1;
+		 state = 0;
+		 par_encoder_2.TGRB1_data_new = TPU1.TGRB;		/* Read TGRB capture register */
+
+		 par_encoder_2.Read_overflow = (int)par_encoder_2.Under_over_flow_cnt;
+
+		 /* Disable interrupt TGIB1 */
+		 /* ---- Timer interrupt enable register_1 (TIER_1) ---- */
+		 TPU1.TIER.BYTE &= 0xFD;
+				/* 7  :  */
+				/* 6  :  */
+				/* 5  :TCIEU=b'1 : Underflow Interrupt Enable   */
+				/* 4  :TCIEV=b'1 : Overflow Interrupt Enable    */
+				/* 3-2:     =b'00: reserve        */
+				/* 1  :TGIEB=b'0 : TGRB Interrupt Disable        */
+				/* 0  :TGIEA=b'       */
+		 break;
+	 default:
+		state = 0;
+		par_encoder_2.speed_sample = 0;
+	}
+}
+
+#pragma interrupt TPU1_TCIV_TCUV_isr(vect = VECT_ICU_GROUPE3, enable)
+void TPU1_TCIV_TCUV_isr(void)
+{
+    volatile unsigned char dummy;
+
+    do {
+		//ICU.GRP[ GRP ## x ].BIT.IS ## x
+		//GRP_TPU0_TCI0V=1,GRP_TPU1_TCI1V=1,GRP_TPU1_TCI1U=1,
+		if(ICU.GRP[GRP_TPU1_TCI1V].BIT.IS_TPU1_TCI1V)
+		{
+			/* ---- Clearing of TCIV Overflow Flag ---- */
+			if(!ICU.GCR[GCR_TPU1_TCI1V].BIT.CLR_TPU1_TCI1V)
+			{
+				ICU.GCR[GCR_TPU1_TCI1V].BIT.CLR_TPU1_TCI1V = 1;
+				dummy = ICU.GCR[GCR_TPU1_TCI1V].BIT.CLR_TPU1_TCI1V;
+			}
+	        if(TPU1.TSR.BIT.TCFV)
+	        {
+	        	TPU1.TSR.BIT.TCFV = 0;
+	        	dummy = TPU1.TSR.BIT.TCFV;
+	        }
+	        par_encoder_2.Under_over_flow_cnt++;
+		}
+
+		if(ICU.GRP[GRP_TPU1_TCI1U].BIT.IS_TPU1_TCI1U)
+		{
+			/* ---- Clearing of TCIU Underflow Flag ---- */
+			if(!ICU.GCR[GCR_TPU1_TCI1U].BIT.CLR_TPU1_TCI1U)
+			{
+				ICU.GCR[GCR_TPU1_TCI1U].BIT.CLR_TPU1_TCI1U = 1;
+				dummy = ICU.GCR[GCR_TPU1_TCI1U].BIT.CLR_TPU1_TCI1U;
+			}
+	        if(TPU1.TSR.BIT.TCFU)
+	        {
+	        	TPU1.TSR.BIT.TCFU = 0;
+	        	dummy = TPU1.TSR.BIT.TCFU;
+	        }
+	        par_encoder_2.Under_over_flow_cnt--;
+		}
+
+    }while(ICU.IR[VECT_ICU_GROUPE3].BIT.IR == 1);
+}
+
+/*
+ * QUESTA FUNZIONE DI INTERRUPT PER ORA NON LA USO:
+ * SERVE PER DARE LA VELOCITA' ISTANTANEA DELL'ALBERO;
+ * PER LA VELOCITA' PRELEVO INVECE LA CATTURA SU TGRB della TPU1
+ * */
+#pragma interrupt TPU0_TGIB0_isr(vect = VECT_TPU0_TGI0B, enable)
+static void TPU0_TGIB0_isr(void)
+{
+    volatile unsigned char dummy;
+    signed long data;
+
+    if(TPU0.TSR.BIT.TGFB)
+    {
+    	TPU0.TSR.BIT.TGFB = 0;
+    	dummy = TPU0.TSR.BIT.TGFB;
+    }
+    /* ---- Clearing of TGIB interrupt flag ---- */
+    if(ICU.IR[VECT_TPU0_TGI0B].BIT.IR)
+    {
+    	ICU.IR[VECT_TPU0_TGI0B].BIT.IR = 0;
+    	dummy = ICU.IR[VECT_TPU0_TGI0B].BIT.IR;
+    }
+
+    data = TPU0.TGRB - TPU0.TGRD;
+        /* Read TGRB capture register */
+        /* Read TGRD buffer register  */
+
+   if ( data < 0){
+	   par_encoder_2.TGRD0_B0_data_diff = data + (CH0_TGRC_CYCLE+1);	/* set data */
+   }else{
+	   par_encoder_2.TGRD0_B0_data_diff = data;					/* set data */
+   }
 }
 
 /* End of File */
