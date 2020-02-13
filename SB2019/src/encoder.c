@@ -23,9 +23,10 @@
  *  delle porte per ogni encoder per la lettura di FASE A e FASE B
  *  (pin_enc1_init,pin_enc2_init,pin_enc3_init, le parti centrali della
  *  inizializzazione riguardano la gestione degli interrupt */
-
 extern parametri_inr_config par_encoder_1;
+//extern identifica_enc enc_id_1;
 extern parametri_inr_config par_encoder_2;
+//
 
 void encoder_init_1(void)
 {
@@ -867,7 +868,24 @@ void Media_Speed(encoder_data* enc, parametri_inr_config* p_i_c)
 void Init_Encoder_vars(parametri_inr_config* p_i_c, identifica_enc* id_enc, unsigned int num_enc)
 {
 	/* Numero di impulsi per giro dell'albero (con motoriduttore) */
-	p_i_c->MODULO_ENC = (ENCODER_PPR * REDUCTION_GAIN * PHASE_COUNT_MODE);
+	switch (num_enc){
+	case 1:
+		p_i_c->MODULO_ENC = (ENCODER_PPR_1 * REDUCTION_GAIN_1 * PHASE_COUNT_MODE_1);
+		break;
+
+	case 2:
+		p_i_c->MODULO_ENC = (ENCODER_PPR_2 * REDUCTION_GAIN_2 * PHASE_COUNT_MODE_2);
+		break;
+
+	case 3:
+		p_i_c->MODULO_ENC = (ENCODER_PPR_3 * REDUCTION_GAIN_3 * PHASE_COUNT_MODE_3);
+		break;
+
+	default:
+		p_i_c->MODULO_ENC = (ENCODER_PPR_1 * REDUCTION_GAIN_1 * PHASE_COUNT_MODE_1);
+		break;
+	}
+
 
 	/* gradi per impulso per 1000 */
 	if(p_i_c->MODULO_ENC)
@@ -939,8 +957,12 @@ void Read_Pos_2LCD(encoder_data* enc)
 
 }
 
+
+
 /* interruptsss */
 
+
+/* encoder 1 */
 
 /* Implementazione degli interrupt per la gestione della lettura dell'encoder 1 */
 #pragma interrupt MTU1_TGIA1_isr(vect = VECT_MTU1_TGIA1, enable)
@@ -1242,4 +1264,8 @@ static void TPU0_TGIB0_isr(void)
    }
 }
 
+
+
 /* End of File */
+
+

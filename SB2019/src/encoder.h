@@ -2,14 +2,22 @@
 #define ENCODER_H
 
 /* NOTA: Se non c'e' il motoriduttore, mettere REDUCTION_GAIN a 1 */
+/* NOTA: encoder_ppr si intende il valore di ppr prima del gear ratio (reduction gain)*/
 
-#define ENCODER_PPR			16 	// ppr dell'encoder per il ballbot (Per la gamba 500)
-#define REDUCTION_GAIN		100 // Rapporto di riduzione inverso totale (approssimato)
- 	 	 	 	 	 	 	 	// dalle prove sembra che per ogni giro dell'albero ci siano
- 	 	 	 	 	 	 	 	// circa 66 giri dell'encoder (per la gamba).
- 	 	 	 	 	 	 	 	// Per il ballbot 100
+/*encoder 1 trazione*/
+#define ENCODER_PPR_1			13	// da datasheet DFRobot 28PA51G
+#define REDUCTION_GAIN_1		51
+#define PHASE_COUNT_MODE_1		4	// Phase counting mode x4 normally
 
-#define PHASE_COUNT_MODE	4	// Phase counting mode x4 normally
+/*encoder 2 sterzo*/
+#define ENCODER_PPR_2			64	// da datasheet pololu #2827
+#define REDUCTION_GAIN_2		131
+#define PHASE_COUNT_MODE_2		4	// Phase counting mode x4 normally
+
+/*encoder 3 non utilizzato*/
+#define ENCODER_PPR_3			16 	// vecchi parametri ballbot
+#define REDUCTION_GAIN_3		100
+#define PHASE_COUNT_MODE_3		4	// Phase counting mode x4 normally
 
 
 /* Imposto ad 1ms gli interrupt di posizione e di velocita' sfalsandoli tra loro
@@ -65,6 +73,10 @@ typedef struct{
 	unsigned char state;
 }identifica_enc;
 
+
+
+
+
 /* Dichiarazione delle funzioni definite nel file encoder_MOT1.c */
 void encoder_init_1(void);
 void encoder_init_2(void);
@@ -78,16 +90,12 @@ void tpu_init_(void);/*tpu3 tpu4*/
 void Init_Encoder_vars(parametri_inr_config*, identifica_enc*,unsigned int);
 void Query_Enc(encoder_data*, parametri_inr_config*,identifica_enc*);
 void Media_Speed(encoder_data*, parametri_inr_config*);
-
 void Read_Pos_1LCD(encoder_data* enc);
 void Read_Vel_1LCD(encoder_data* enc);
 void Read_Pos_2LCD(encoder_data* enc);
 void Read_Vel_2LCD(encoder_data* enc);
 
 
-//parametri_inr_config par_encoder_1;
-//identifica_enc enc_id_1;
-//parametri_inr_config par_encoder_2;
-//identifica_enc enc_id_2;
+
 
 #endif
