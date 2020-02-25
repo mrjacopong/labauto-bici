@@ -11,5 +11,5 @@ generate/r_glyph/src/r_glyph_register.obj generate/r_glyph/src/r_glyph_register.
 ../generate/r_glyph/src/Glyph\Drivers\ST7579_LCD.h:
 generate/r_glyph/src/r_glyph_register.obj generate/r_glyph/src/r_glyph_register.d: ../generate/r_glyph/src/r_glyph.h
 ../generate/r_glyph/src/r_glyph.h:
-generate/r_glyph/src/r_glyph_register.obj generate/r_glyph/src/r_glyph_register.d: C:\Users\mrjac\e2_studio\workspace\SB2019\generate\r_glyph\r_glyph_config.h
-C:\Users\mrjac\e2_studio\workspace\SB2019\generate\r_glyph\r_glyph_config.h:
+generate/r_glyph/src/r_glyph_register.obj generate/r_glyph/src/r_glyph_register.d: C:\Users\mrjac\Desktop\programmazione\ebike\labauto-bici\SB2019\generate\r_glyph\r_glyph_config.h
+C:\Users\mrjac\Desktop\programmazione\ebike\labauto-bici\SB2019\generate\r_glyph\r_glyph_config.h:

@@ -23,10 +23,9 @@
  *  delle porte per ogni encoder per la lettura di FASE A e FASE B
  *  (pin_enc1_init,pin_enc2_init,pin_enc3_init, le parti centrali della
  *  inizializzazione riguardano la gestione degli interrupt */
+
 extern parametri_inr_config par_encoder_1;
-//extern identifica_enc enc_id_1;
 extern parametri_inr_config par_encoder_2;
-//
 
 void encoder_init_1(void)
 {

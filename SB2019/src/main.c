@@ -52,7 +52,7 @@ void main(void)
 	Motor m2;//motore controllo trazione
 
 
-	//inizializzazione per l'encoder
+	/*inizializzazione per l'encoder*/
 	// Creazione variabile di tipo struttura encoder che verrà usata per le funzioni dell'encoder.
 	encoder_data enc_1;
 	encoder_data enc_2;
@@ -63,6 +63,8 @@ void main(void)
 	Init_Encoder_vars( &par_encoder_1 , &enc_id_1 , 1);
 	Init_Encoder_vars( &par_encoder_2 , &enc_id_2 , 2);
 
+
+	/*inizializzazione per gli interrupt*/
 	CMT_init();
 
 	// Inizializzazione PWM dei due motori
@@ -79,6 +81,7 @@ void main(void)
 
     //prova dei PWM e dei pin di direzione
     //possono essere variate anche nel while (1)
+    //modifichiamo questi valori e tramite "DutyCycle_to_Motor(&m)" li inviamo ai motori
     m1.volt_signal=5;
     m2.volt_signal=11;
 	m2.direction_signal = 1;
@@ -89,17 +92,18 @@ void main(void)
     {
     	/* Calcolo del Duty-Cycle da inviare ai motori */
 
-    	//da rivedere bene quale dei due funziona, o se devono funzionare entrambi
+    	DutyCycle_to_Motor(&m1);
     	DutyCycle_to_Motor(&m2);
-    	DutyCycle(30,4);
 
 
-    	//Letture della velocità dall'Encoder con media.
+    	/*Letture della velocità dall'Encoder con media.*/
 
     	Query_Enc(&enc_2, &par_encoder_2 , &enc_id_2);
     	Media_Speed(&enc_2, &par_encoder_2);
     	Query_Enc(&enc_1, &par_encoder_1 , &enc_id_1);
     	Media_Speed(&enc_1, &par_encoder_1);
+
+    	/*stampa su lcd i valori letti per fare il debug*/
 
     	Read_Vel_1LCD(&enc_1);
     	Read_Pos_1LCD(&enc_1);
