@@ -48,14 +48,14 @@ void main(void)
 {
 	/* Creazione variabile di tipo struttura Motor che verra'  passata alle funzioni di gestione del PWM */
 	//vanno create entrambe altrimenti non funziona
-	Motor m1;//motore controllo sterzo
-	Motor m2;//motore controllo trazione
+	Motor m1;//motore controllo trazione
+	Motor m2;//motore controllo sterzo
 
 
 	/*inizializzazione per l'encoder*/
 	// Creazione variabile di tipo struttura encoder che verrà usata per le funzioni dell'encoder.
-	encoder_data enc_1;
-	encoder_data enc_2;
+	encoder_data enc_1;	//trazione
+	encoder_data enc_2;	//sterzo
 
 	encoder_init_1();
 	encoder_init_2();
@@ -68,8 +68,8 @@ void main(void)
 	CMT_init();
 
 	// Inizializzazione PWM dei due motori
-	PWM_Init(3,12,&m2); // PWM motor 2 JN2-PIN 23
-	PWM_Init(4,12,&m1); // PWM motor 1 JN2-PIN 22
+	PWM_Init(3,12,&m1); // PWM motor 1 JN2-PIN 23
+	PWM_Init(4,12,&m2); // PWM motor 2 JN2-PIN 22
 	Init_Port_Dir();
 
 
@@ -79,17 +79,14 @@ void main(void)
     /* Clear LCD */
     lcd_clear();
 
-    //prova dei PWM e dei pin di direzione
-    //possono essere variate anche nel while (1)
-    //modifichiamo questi valori e tramite "DutyCycle_to_Motor(&m)" li inviamo ai motori
-    m1.volt_signal=5;
-    m2.volt_signal=11;
-	m2.direction_signal = 1;
-	m1.direction_signal = 1;
-
-
     while (1)
     {
+
+    	//invio di pwm di test
+    	m2.volt_signal=9;
+    	m1.volt_signal=9;
+
+
     	/* Calcolo del Duty-Cycle da inviare ai motori */
 
     	DutyCycle_to_Motor(&m1);

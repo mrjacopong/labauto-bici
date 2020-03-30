@@ -298,12 +298,12 @@ void DutyCycle (float duty_cycle, unsigned char channel) /* Duty in percentuale,
 **********************************************************************************/
 void Init_Port_Dir(void)	// Inizializzazione delle porte di Direzione
 {
-	// Motor 1 (Connector JN2 - PIN 19)
+	// Motor 3 (Connector JN2 - PIN 19) (trazione)
 	PORTD.PDR.BIT.B6 = 1; //OUTPUT
 	PORTD.PMR.BIT.B6 = 0; //porta di io
 	PORTD.PODR.BIT.B6 = 0; //orario
 
-	// Motor 2 alias Ruote (Connector JN2 - PIN 16)
+	// Motor 4 (Connector JN2 - PIN 16) (sterzo)
 	PORTD.PDR.BIT.B3 = 1; //OUTPUT
 	PORTD.PMR.BIT.B3 = 0; //GPIO
 	PORTD.PODR.BIT.B3 = 0; //orario
@@ -358,11 +358,11 @@ void motor_direction(Motor* m)
 
 	switch(m->ch)
 		{
-			case(4):
-			PORTD.PODR.BIT.B6 = m->direction_signal; // DIR Port Motor 1 - PD6 (Connector JN2 - PIN 19)
-			break;
 			case(3):
-			PORTD.PODR.BIT.B3 = m->direction_signal; // DIR Port Motor 2 - PD3 (Connector JN2 - PIN 16)
+			PORTD.PODR.BIT.B6 = m->direction_signal; // DIR Port Motor 3 - PD6 (Connector JN2 - PIN 19)
+			break;
+			case(4):
+			PORTD.PODR.BIT.B3 = m->direction_signal; // DIR Port Motor 4 - PD3 (Connector JN2 - PIN 16)
 			break;
 		}
 }
