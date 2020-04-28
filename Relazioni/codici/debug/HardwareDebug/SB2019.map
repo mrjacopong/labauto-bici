@@ -1,0 +1,107 @@
+Renesas Optimizing Linker (W2.08.00 )             26-Feb-2020 20:27:48
+
+*** Options ***
+
+-subcommand=LinkerSB2019.tmp
+-noprelink
+-input=".\generate/r_bsp/board/rdkrx63n\lowlvl.obj"
+-input=".\generate/r_bsp/board/rdkrx63n\dbsct.obj"
+-input=".\generate/r_bsp/board/rdkrx63n\flash_options.obj"
+-input=".\generate/r_bsp/board/rdkrx63n\hwsetup.obj"
+-input=".\generate/r_bsp/board/rdkrx63n\lcd.obj"
+-input=".\generate/r_bsp/board/rdkrx63n\lowsrc.obj"
+-input=".\generate/r_bsp/board/rdkrx63n\resetprg.obj"
+-input=".\generate/r_bsp/board/rdkrx63n\sbrk.obj"
+-input=".\generate/r_bsp/board/rdkrx63n\vecttbl.obj"
+-input=".\generate/r_glyph/src/glyph/drivers\st7579_lcd.obj"
+-input=".\generate/r_glyph/src/glyph/fonts\bitmap_font.obj"
+-input=".\generate/r_glyph/src/glyph/fonts\font_8x16.obj"
+-input=".\generate/r_glyph/src/glyph/fonts\font_8x8.obj"
+-input=".\generate/r_glyph/src/glyph/fonts\font_helvr10.obj"
+-input=".\generate/r_glyph/src/glyph/fonts\font_winfreesystem14x16.obj"
+-input=".\generate/r_glyph/src/glyph/fonts\font_x5x7.obj"
+-input=".\generate/r_glyph/src/glyph/fonts\font_x6x13.obj"
+-input=".\generate/r_glyph/src/glyph\glyph.obj"
+-input=".\generate/r_glyph/src\r_glyph.obj"
+-input=".\generate/r_glyph/src\r_glyph_register.obj"
+-input=".\generate/r_riic_rx600/src\r_riic_rx600.obj"
+-input=".\generate/r_riic_rx600/src\r_riic_rx600_master.obj"
+-input=".\generate/r_rspi_rx600/src\r_rspi_rx600.obj"
+-input=".\src\ADb10.obj"
+-input=".\src\AHRS.obj"
+-input=".\src\CMT.obj"
+-input=".\src\PID.obj"
+-input=".\src/eMPL\inv_mpu.obj"
+-input=".\src\encoder.obj"
+-input=".\src\i2c.obj"
+-input=".\src\imu.obj"
+-input=".\src\mag.obj"
+-input=".\src\main.obj"
+-input=".\src\pwm.obj"
+-input=".\src\sensore.obj"
+-input=".\src\switches.obj"
+-library=".\SB2019.lib"
+-start=SI,SU,B_1,B_2,R_1,B,R,R_2/0,C_1,C_2,C,C$*,L*,D*,P,W*/0FFF80000,FIXEDVECT/0FFFFFF90
+-output="SB2019.abs"
+-form=absolute
+-nomessage
+-list=SB2019.map
+-nooptimize
+-rom=D=R,D_1=R_1,D_2=R_2
+-nologo
+
+*** Error information ***
+
+*** Mapping List ***
+
+SECTION                            START      END         SIZE   ALIGN
+SI
+                                  00000000  000003ff       400   4
+SU
+                                  00000400  000013ff      1000   4
+B_1
+                                  00001400  00001427        28   1
+B_2
+                                  00001428  00001428         0   1
+R_1
+                                  00001428  00001485        5e   1
+B
+                                  00001488  0000481f      3398   4
+R
+                                  00004820  0000678f      1f70   4
+R_2
+                                  00006790  0000679d         e   2
+$ADDR_C_FF7FFFE8
+                                  ff7fffe8  ff7fffff        18   1
+C_1
+                                  fff80000  fff8356a      356b   1
+C_2
+                                  fff8356c  fff83779       20e   2
+C
+                                  fff8377c  fff83933       1b8   4
+C$DSEC
+                                  fff83934  fff83957        24   4
+C$BSEC
+                                  fff83958  fff8396f        18   4
+C$VECT
+                                  fff83970  fff83d6f       400   4
+L
+                                  fff83d70  fff83e7c       10d   4
+D
+                                  fff83e80  fff85def      1f70   4
+D_1
+                                  fff85df0  fff85e4d        5e   1
+D_2
+                                  fff85e4e  fff85e5b         e   2
+P
+                                  fff85e5c  fff8d87a      7a1f   1
+W
+                                  fff8d87c  fff8d87c         0   4
+W_1
+                                  fff8d87c  fff8d895        1a   1
+W_2
+                                  fff8d896  fff8d896         0   2
+$ADDR_C_FFFFFF80
+                                  ffffff80  ffffff8f        10   1
+FIXEDVECT
+                                  ffffff90  ffffffff        70   4

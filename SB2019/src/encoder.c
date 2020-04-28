@@ -841,18 +841,25 @@ void Media_Speed(encoder_data* enc, parametri_inr_config* p_i_c)
 	unsigned int i;
 	float velocita_media_1;
 
+	static bool reached = false; // va inclusa la libreria stdbool
+
 	velocita_media_1 = 0.0;
 
 	speed_vect[queue_index] = enc->speed;
 	queue_index++;
-	if(queue_index >= 30) queue_index = 0;
+	
+	if(queue_index >= 30) {
+		queue_index = 0;
+		if (!reached) reached = true;
+	}
 
 	for(i = 0; i < 30; i++)
 	{
 		velocita_media_1 += (float)speed_vect[i];
 	}
 
-	velocita_media_1 = velocita_media_1 / 30.0;
+	if (reached) velocita_media_1 = velocita_media_1 / 30.0;
+	else velocita_media_1 = velocita_media_1 / (unsigned int)queue_index; // se il cast non funziona si deve usare atoi(queue_index)
 
 	/* velocita' in gradi al secondo */
 	enc->speed_in_degree_per_sec = (p_i_c->mDEGREE_PER_PULSE * velocita_media_1 );
@@ -1266,5 +1273,3 @@ static void TPU0_TGIB0_isr(void)
 
 
 /* End of File */
-
-
