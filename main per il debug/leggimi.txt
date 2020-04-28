@@ -1,0 +1,2 @@
+questo è un main semplificato che abbiamo usato per effettuare il debug, 
+per utilizzarlo basta aver importato il codice completo SB2019 ed inserire questo main al posto di quello precedente
